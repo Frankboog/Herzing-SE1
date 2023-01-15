@@ -1,4 +1,5 @@
 import java.io.Console;
+import java.io.*;
 import java.util.Scanner;
 
 public class GameBoard {
@@ -27,19 +28,19 @@ public class GameBoard {
 				System.out.print(" Enter Selection: ");
 				choice = scan.nextInt();
 				if (choice == -1) {break;}//end IF condition
-				else if (choice < 1 || choice > 4) {
-					System.out.printf(" '%d' %s\n", choice,"Is Out of Range!");
+				else if (choice < 1 || choice > 3) {
+					System.out.printf("\n '%d' %s\n", choice,"Is Out of Range!");
 					continue;
 				}//end IF condition
 				else {break;}//end else
 			}//end try
 			catch (java.util.InputMismatchException e) {
-				System.out.println("\n========================== INPUT MISMATCH ===========================");
-				System.out.println(" Sorry, Your Choice Is Not On The Menu: " + choice);
+				System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
+				System.out.println(" Sorry, Your Choice Is Not On The Menu. Please Try Again!");
 				scan.nextLine();
 			}//end catch
 			catch (Exception e) {
-				System.out.println("\n============================= EXCEPTION =============================");
+				System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
 				System.out.println(" Not Valid, Please Try Again! ");
 				scan.nextLine();
 			}//end catch
@@ -81,9 +82,9 @@ public class GameBoard {
 					Game game = new Game (player1, player2);
 					playGame(game, player1, player2, scan);
 				}//end case 1
-				case 2 -> {}//end case 2
-				case 3 -> {displayRules();}//end case 3
-				case 4 -> {admin();}//end case 4
+				case 2 -> {displayRules();}//end case 2
+				case 3 -> {admin();}//end case 3
+				//case 4 -> {}//end case 4
 				default -> {break;}//end default
 			}//end switch
 			
@@ -98,19 +99,19 @@ public class GameBoard {
 					System.out.print(" Enter Selection: ");
 					choice = scan.nextInt();
 					if (choice == -1) {break;}//end IF condition
-					else if (choice < 1 || choice > 4) {
+					else if (choice < 1 || choice > 3) {
 						System.out.printf(" '%d' %s\n", choice,"Is Out of Range!");
 						continue;
 					}//end IF condition
 					else {break;}//end else
 				}//end try
 				catch (java.util.InputMismatchException e) {
-					System.out.println("\n========================== INPUT MISMATCH ===========================");
-					System.out.println(" Sorry, Your Choice Is Not On The Menu: " + choice);
+					System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
+					System.out.println(" Sorry, Your Choice Is Not On The Menu. Please Try Again!");
 					scan.nextLine();
 				}//end catch
 				catch (Exception e) {
-					System.out.println("\n============================= EXCEPTION =============================");
+					System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
 					System.out.println(" Not Valid, Please Try Again! ");
 					scan.nextLine();
 				}//end catch
@@ -144,8 +145,8 @@ public class GameBoard {
 		System.out.println("-".repeat(29) + " GAME MENU " + "-".repeat(29));
 		System.out.println("=".repeat(69));
 		System.out.println(" [1] - Play Game");
-		System.out.println(" [2] - Stats");
-		System.out.println(" [3] - Rules");
+		//System.out.println(" [2] - Stats");
+		System.out.println(" [2] - Rules");
 		System.out.println("[-1] - Exit");
 		System.out.println("-".repeat(69) + "\n");
 	}//end method displayMenu
@@ -181,9 +182,6 @@ public class GameBoard {
 			System.out.printf(" %2s %s\n", "1 =", "ROCK");
 			System.out.printf(" %2s %s\n", "2 =", "PAPER");
 			System.out.printf(" %2s %s\n", "3 =", "SCISSORS");
-			//System.out.printf(" %-10s %s\n", "ROCK", "= 1");
-			//System.out.printf(" %-10s %s\n", "PAPER", "= 2");
-			//System.out.printf(" %-10s %s\n\n", "SCISSORS", "= 3");
 
 			// input player 1 pick
 			while (true) {
@@ -192,38 +190,46 @@ public class GameBoard {
 					System.out.println("-".repeat(69));
 					System.out.print(" Make Your Pick: ");
 					pickP1 = scan.nextInt();
+					if (pickP1 < 1 || pickP1 > 3) {
+						System.out.println("\n " + pickP1 + " Out of Range, Please Choose (1-3).");
+						continue;
+					}//end IF condition
 					game.setPickP1(pickP1);
 					break;
 				}//end try
 				catch (java.util.InputMismatchException e) {
-					System.out.println("\n========================== INPUT MISMATCH ===========================");
-					System.out.println(" Your Choice Is Not On The Menu! ");
+					System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
+					System.out.println(" Sorry, The Choice is (1-3). Please Try Again!");
 					scan.nextLine();
 				}//end catch
 				catch (Exception e) {
-					System.out.println("\n============================= EXCEPTION =============================");
+					System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
 					System.out.println(" Not Valid, Please Try Again! ");
 					scan.nextLine();
 				}//end catch
 			}//end while loop
-
+			System.out.println();
 			// input player 2 pick
 			while (true) {
 				try {
-					System.out.println("\n PLAYER TWO");
+					System.out.println(" PLAYER TWO");
 					System.out.println("-".repeat(69));
 					System.out.print(" Maker Your Pick: ");
 					pickP2 = scan.nextInt();
+					if (pickP2 < 1 || pickP2 > 3) {
+						System.out.println("\n " + pickP2 + " Out of Range, Please Choose (1-3).");
+						continue;
+					}//end IF condition
 					game.setPickP2(pickP2);
 					break;
 				}//end try
 				catch (java.util.InputMismatchException e) {
-					System.out.println("\n========================== INPUT MISMATCH ===========================");
-					System.out.println(" Your Choice Is Not On The Menu! ");
+					System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
+					System.out.println(" Sorry, The Choice is (1-3). Please Try Again!");
 					scan.nextLine();
 				}//end catch
 				catch (Exception e) {
-					System.out.println("\n============================= EXCEPTION =============================");
+					System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
 					System.out.println(" Not Valid, Please Try Again! ");
 					scan.nextLine();
 				}//end catch
@@ -269,7 +275,7 @@ public class GameBoard {
 					break;
 				}//end IF condition
 				else if (again.toLowerCase().equals("n")) {
-					System.out.println(" Sorry to see you go! ");
+					System.out.println(" Sorry to see you Go! ");
 					break;
 				}//end IF condition
 				//else if (!again.toLowerCase().equals("y") && !again.toLowerCase().equals("n")) 
@@ -281,122 +287,6 @@ public class GameBoard {
 		}//end while loop
 	}//end method addPlayers
 	
-	
-	// play game
-	private static void playGame_OLD(Player p1, Player p2, Scanner scan) {
-		System.out.println(" Player One: " + p1.getName());
-		System.out.println(" Player Two: " + p2.getName());
-		System.out.println(" LETS BEGIN!\n");
-		String again = new String("y");
-		while (!again.toLowerCase().equals("n")) {
-			
-			int pickP1 = 0;
-			int pickP2 = 0;
-
-			System.out.printf("%10s %s\n", "ROCK", "= 1");
-			System.out.printf("%10s %s\n", "PAPER", "= 2");
-			System.out.printf("%10s %s\n", "SCISSORS", "= 3");
-
-			while (true) {
-				try {
-					System.out.println(" PLAYER ONE");
-					System.out.println("-".repeat(69));
-					System.out.print(" Enter Selection: ");
-					pickP1 = scan.nextInt();
-					break;
-				}//end try
-				catch (java.util.InputMismatchException e) {
-					System.out.println("\n========================== INPUT MISMATCH ===========================");
-					System.out.println(" Your Choice Is Not On The Menu! ");
-					scan.nextLine();
-				}//end catch
-				catch (Exception e) {
-					System.out.println("\n============================= EXCEPTION =============================");
-					System.out.println(" Not Valid, Please Try Again! ");
-					scan.nextLine();
-				}//end catch
-			}//end while loop
-
-
-			
-			while (true) {
-				try {
-					System.out.println(" PLAYER TWO");
-					System.out.println("-".repeat(69));
-					System.out.print(" Enter Selection: ");
-					pickP2 = scan.nextInt();
-					break;
-				}//end try
-				catch (java.util.InputMismatchException e) {
-					System.out.println("\n========================== INPUT MISMATCH ===========================");
-					System.out.println(" Your Choice Is Not On The Menu! ");
-					scan.nextLine();
-				}//end catch
-				catch (Exception e) {
-					System.out.println("\n============================= EXCEPTION =============================");
-					System.out.println(" Not Valid, Please Try Again! ");
-					scan.nextLine();
-				}//end catch
-			}//end while loop
-			
-			
-			
-			System.out.println(" Player One Picks: " + getPick(pickP1));
-			System.out.println(" Player Two Picks: " + getPick(pickP2));
-			
-			int winner = winner(pickP1, pickP2);
-			System.out.println(" The Winner is Player: " + winner);
-			System.out.println(" Congratulations!\n");
-
-			
-			while (true) {
-				System.out.print("\n Play Again? (y/n): ");
-				again = scan.next();
-				//if () {}//end IF condition
-				if (again.toLowerCase().equals("y")) {
-					System.out.println(" Fantastic! ");
-					break;
-				}//end IF condition
-				else if (again.toLowerCase().equals("n")) {
-					System.out.println(" Sorry to see you go! ");
-					break;
-				}//end IF condition
-				//else if (!again.toLowerCase().equals("y") && !again.toLowerCase().equals("n")) 
-				else {
-					System.out.println(" '" + again + "' Not a Valid Choice! ");
-					continue;
-				}//else
-			}//end while loop
-		}//end while loop
-	}//end method addPlayers
-	
-	
-	// get winner
-	private static int winner(int pk1, int pk2) {
-		int winner = 0;
-		if (pk1 == pk2) {return winner = 0;}//end IF condition
-		else if (pk1 == 1 && pk2 == 2) {return winner = 2;}//end IF condition
-		else if (pk1 == 1 && pk2 == 3) {return winner = 1;}//end IF condition
-		else if (pk1 == 2 && pk2 == 1) {return winner = 1;}//end IF condition
-		else if (pk1 == 2 && pk2 == 3) {return winner = 2;}//end IF condition
-		else if (pk1 == 3 && pk2 == 1) {return winner = 2;}//end IF condition
-		else if (pk1 == 3 && pk2 == 2) {return winner = 1;}//end IF condition
-		return winner;
-	}//end method getPick
-
-	
-	// return pick
-	private static String getPick(int x) {
-		String pick = new String();
-		switch (x) {
-			case 1 -> {pick = "ROCK";}//end case 1
-			case 2 -> {pick = "PAPER";}//end case 1
-			case 3 -> {pick = "SCISSORS";}//end case 1
-			default -> {pick = "ROCK";}//end case 1
-		}//end switch
-		return pick;
-	}//end method getPick
-
 	
 	// administration testing
 	private static void admin() {
@@ -410,9 +300,12 @@ public class GameBoard {
 		//System.out.println(" No Console Found...");
 		//}
 		
-		System.out.println(" Print: ");
-		String input = System.console().readLine();
-		System.out.println(" Input: " + input);
+		//System.out.println(" Print: ");
+		//String input = System.console().readLine();
+		//System.out.println(" Input: " + input);
+		
+		
+		//String password = new jline.ConsoleReader().readLine(new Character('*'));
 		
 		
 		
