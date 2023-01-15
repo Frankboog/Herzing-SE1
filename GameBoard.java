@@ -1,5 +1,4 @@
 import java.io.Console;
-import java.io.*;
 import java.util.Scanner;
 
 public class GameBoard {
@@ -54,7 +53,7 @@ public class GameBoard {
 			name1 = scan.nextLine();
 			switch(choice) {
 				// case 1 start
-				case 1 -> {
+				case 1: {
 					while (true) {
 						System.out.print(" Enter Player 1 Name: ");
 						name1 = scan.nextLine();
@@ -81,11 +80,12 @@ public class GameBoard {
 					Player player2 = new Player (2, name2);
 					Game game = new Game (player1, player2);
 					playGame(game, player1, player2, scan);
+					break;
 				}//end case 1
-				case 2 -> {displayRules();}//end case 2
-				case 3 -> {admin();}//end case 3
-				//case 4 -> {}//end case 4
-				default -> {break;}//end default
+				case 2: {displayRules(); break;}//end case 2
+				case 3: {admin(scan); break;}//end case 3
+				//case 4: {}//end case 4
+				default: {break;}//end default
 			}//end switch
 			
 			
@@ -170,6 +170,7 @@ public class GameBoard {
 		
 		
 		// local variable
+		Console cons;
 		String again = new String("y");
 		
 		// loop while again
@@ -188,8 +189,18 @@ public class GameBoard {
 				try {
 					System.out.println(" PLAYER ONE");
 					System.out.println("-".repeat(69));
-					System.out.print(" Make Your Pick: ");
-					pickP1 = scan.nextInt();
+					
+					
+					if ((cons = System.console()) != null) {
+						char[] input = cons.readPassword(" Make Your Pick: ");
+						String pick_str = new String(input);
+						pickP1 = Integer.parseInt(pick_str);
+					}//end IF condition
+					else {
+						System.out.print(" Make Your Pick: ");
+						pickP1 = scan.nextInt();
+					}//end else
+					
 					if (pickP1 < 1 || pickP1 > 3) {
 						System.out.println("\n " + pickP1 + " Out of Range, Please Choose (1-3).");
 						continue;
@@ -214,8 +225,15 @@ public class GameBoard {
 				try {
 					System.out.println(" PLAYER TWO");
 					System.out.println("-".repeat(69));
-					System.out.print(" Maker Your Pick: ");
-					pickP2 = scan.nextInt();
+					if ((cons = System.console()) != null) {
+						char[] input = cons.readPassword(" Make Your Pick: ");
+						String pick_str = new String(input);
+						pickP2 = Integer.parseInt(pick_str);
+					}//end IF condition
+					else {
+						System.out.print(" Make Your Pick: ");
+						pickP2 = scan.nextInt();
+					}//end else
 					if (pickP2 < 1 || pickP2 > 3) {
 						System.out.println("\n " + pickP2 + " Out of Range, Please Choose (1-3).");
 						continue;
@@ -236,21 +254,21 @@ public class GameBoard {
 			}//end while loop
 			
 			// get winner & print results
-			System.out.println("\n Player One Picks: " + game.getPick(pickP1));
-			System.out.println(" Player Two Picks: " + game.getPick(pickP2));
+			System.out.println("\n Player One Picks: " + game.getPick(game.getPickP1()));
+			System.out.println(" Player Two Picks: " + game.getPick(game.getPickP2()));
 			
 			int winner = game.winner();
 			game.updatePlayers(winner);
 			if (winner == 1) {
-				System.out.println(" *** " + game.getPick(pickP1) + " - beats - " + game.getPick(pickP2) + " ***");
+				System.out.println(" *** " + game.getPick(game.getPickP1()) + " - beats - " + game.getPick(game.getPickP2()) + " ***");
 				System.out.println(" Congratulations " + game.getPlayer1().getName() + " You Win!");
 			}//end IF condition
 			else if (winner == 2) {
-				System.out.println(" *** " + game.getPick(pickP2) + " - beats - " + game.getPick(pickP1) + " ***");
+				System.out.println(" *** " + game.getPick(game.getPickP2()) + " - beats - " + game.getPick(game.getPickP1()) + " ***");
 				System.out.println(" Congratulations " + game.getPlayer2().getName() + " You Win!");
 			}//end IF condition
 			else if (winner == 0) {
-				System.out.println(" *** " + game.getPick(pickP1) + " - ties - " + game.getPick(pickP2) + " ***");
+				System.out.println(" *** " + game.getPick(game.getPickP1()) + " - ties - " + game.getPick(game.getPickP2()) + " ***");
 				System.out.println(" The Game is a Tie, Sorry, No Winners.");
 			}//end IF condition
 			System.out.println("\n" + "-".repeat(7) + " STATISTICS " + "-".repeat(50));
@@ -289,46 +307,52 @@ public class GameBoard {
 	
 	
 	// administration testing
-	private static void admin() {
-		// test area
-		//Console cons;
-		//if ((cons = System.console()) != null) {
-		//char[] password = cons.readPassword(" Input Password: ");
-		//System.out.println(" Password: " + new String(password));
-		//}
-		//else {
-		//System.out.println(" No Console Found...");
-		//}
-		
-		//System.out.println(" Print: ");
-		//String input = System.console().readLine();
-		//System.out.println(" Input: " + input);
-		
-		
-		//String password = new jline.ConsoleReader().readLine(new Character('*'));
-		
-		
-		
+	private static void admin(Scanner scan) {
+		int stay = 1;
+		while (stay != 0) {
+			// test area
+			Console cons;
+			if ((cons = System.console()) != null) {
+			char[] password = cons.readPassword(" Input Password: ");
+			System.out.println(" Password: " + new String(password));
+			}
+			else {
+			System.out.println(" No Console Found...");
+			}
+			
+			System.out.println();
+			System.out.println();
+			
+			
+//			System.out.println(" Print: ");
+//			String input = System.console().readLine();
+//			System.out.println(" Input: " + input);
+			
+			
+			// game menu selection
+			while (true) {
+				try {
+					System.out.print(" Enter Selection (0/1): ");
+					stay = scan.nextInt();
+					if (stay == 0) {break;}//end IF condition
+					else if (stay < 1 || stay > 3) {
+						System.out.printf(" '%d' %s\n", stay,"Is Out of Range!");
+						continue;
+					}//end IF condition
+					else {break;}//end else
+				}//end try
+				catch (java.util.InputMismatchException e) {
+					System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
+					System.out.println(" Sorry, Your Choice Is Not On The Menu. Please Try Again!");
+					scan.nextLine();
+				}//end catch
+				catch (Exception e) {
+					System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
+					System.out.println(" Not Valid, Please Try Again! ");
+					scan.nextLine();
+				}//end catch
+			}//end while loop
+		}//end while loop
 	}//end method admin
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }//end class GameBoard

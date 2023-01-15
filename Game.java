@@ -56,10 +56,10 @@ public class Game {
 	public String getPick(int x) {
 		String pick = new String();
 		switch (x) {
-			case 1 -> {pick = "ROCK";}//end case 1
-			case 2 -> {pick = "PAPER";}//end case 1
-			case 3 -> {pick = "SCISSORS";}//end case 1
-			default -> {pick = "ROCK";}//end case 1
+			case 1: {pick = "ROCK"; break;}//end case 1
+			case 2: {pick = "PAPER"; break;}//end case 1
+			case 3: {pick = "SCISSORS"; break;}//end case 1
+			default: {pick = "NONE"; break;}//end case 1
 		}//end switch
 		return pick;
 	}//end method getPick
