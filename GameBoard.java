@@ -21,29 +21,8 @@ public class GameBoard {
 		displayMenu();
 		
 		
-		// game menu selection
-		while (true) {
-			try {
-				System.out.print(" Enter Selection: ");
-				choice = scan.nextInt();
-				if (choice == -1) {break;}//end IF condition
-				else if (choice < 1 || choice > 3) {
-					System.out.printf("\n '%d' %s\n", choice,"Is Out of Range!");
-					continue;
-				}//end IF condition
-				else {break;}//end else
-			}//end try
-			catch (java.util.InputMismatchException e) {
-				System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
-				System.out.println(" Sorry, Your Choice Is Not On The Menu. Please Try Again!");
-				scan.nextLine();
-			}//end catch
-			catch (Exception e) {
-				System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
-				System.out.println(" Not Valid, Please Try Again! ");
-				scan.nextLine();
-			}//end catch
-		}//end while loop
+		// get game menu selection
+		choice = getChoice(scan);
 
 		
 		// iterate user choice
@@ -93,29 +72,8 @@ public class GameBoard {
 			displayMenu();
 			
 			
-			// game menu selection
-			while (true) {
-				try {
-					System.out.print(" Enter Selection: ");
-					choice = scan.nextInt();
-					if (choice == -1) {break;}//end IF condition
-					else if (choice < 1 || choice > 3) {
-						System.out.printf(" '%d' %s\n", choice,"Is Out of Range!");
-						continue;
-					}//end IF condition
-					else {break;}//end else
-				}//end try
-				catch (java.util.InputMismatchException e) {
-					System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
-					System.out.println(" Sorry, Your Choice Is Not On The Menu. Please Try Again!");
-					scan.nextLine();
-				}//end catch
-				catch (Exception e) {
-					System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
-					System.out.println(" Not Valid, Please Try Again! ");
-					scan.nextLine();
-				}//end catch
-			}//end while loop
+			// get game menu selection
+			choice = getChoice(scan);
 			
 		}//end while loop (choice)
 		
@@ -145,8 +103,8 @@ public class GameBoard {
 		System.out.println("-".repeat(29) + " GAME MENU " + "-".repeat(29));
 		System.out.println("=".repeat(69));
 		System.out.println(" [1] - Play Game");
-		//System.out.println(" [2] - Stats");
 		System.out.println(" [2] - Rules");
+		//System.out.println(" [3] - Stats");
 		System.out.println("[-1] - Exit");
 		System.out.println("-".repeat(69) + "\n");
 	}//end method displayMenu
@@ -160,6 +118,48 @@ public class GameBoard {
 		System.out.println(" NO PEEKING!");
 		System.out.println("=".repeat(69) + "\n");
 	}//end method displayRules
+	
+	
+	// user menu choice
+	private static int getChoice(Scanner scan) {
+		// game menu selection
+		int choice;
+		while (true) {
+			try {
+				System.out.print(" Enter Selection: ");
+				choice = scan.nextInt();
+				if (choice == -1) {break;}//end IF condition
+				else if (choice < 1 || choice > 3) {
+					System.out.printf(" '%d' %s\n", choice,"Is Out of Range!\n");
+					continue;
+				}//end IF condition
+				else {break;}//end else
+			}//end try
+			catch (java.util.InputMismatchException e) {
+				handleMismatch(scan);
+			}//end catch
+			catch (Exception e) {
+				handleExcept(scan);
+			}//end catch
+		}//end while loop
+		return choice;
+	}//end method getChoice
+	
+	
+	// handle mismatch exception
+	private static void handleMismatch(Scanner scan) {
+		System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
+		System.out.println(" Sorry, Your Choice Is Not On The Menu. Please Try Again!\n");
+		scan.nextLine();
+	}//end handleMismatch
+	
+	
+	// handle exception
+	private static void handleExcept(Scanner scan) {
+		System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
+		System.out.println(" Not Valid, Please Try Again!\n");
+		scan.nextLine();
+	}//end handleExcept
 	
 	
 	// play game
@@ -209,14 +209,10 @@ public class GameBoard {
 					break;
 				}//end try
 				catch (java.util.InputMismatchException e) {
-					System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
-					System.out.println(" Sorry, The Choice is (1-3). Please Try Again!");
-					scan.nextLine();
+					handleMismatch(scan);
 				}//end catch
 				catch (Exception e) {
-					System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
-					System.out.println(" Not Valid, Please Try Again! ");
-					scan.nextLine();
+					handleExcept(scan);
 				}//end catch
 			}//end while loop
 			System.out.println();
@@ -242,18 +238,15 @@ public class GameBoard {
 					break;
 				}//end try
 				catch (java.util.InputMismatchException e) {
-					System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
-					System.out.println(" Sorry, The Choice is (1-3). Please Try Again!");
-					scan.nextLine();
+					handleMismatch(scan);
 				}//end catch
 				catch (Exception e) {
-					System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
-					System.out.println(" Not Valid, Please Try Again! ");
-					scan.nextLine();
+					handleExcept(scan);
 				}//end catch
 			}//end while loop
 			
 			// get winner & print results
+			Player[] players = {p1, p2};
 			System.out.println("\n Player One Picks: " + game.getPick(game.getPickP1()));
 			System.out.println(" Player Two Picks: " + game.getPick(game.getPickP2()));
 			
@@ -274,15 +267,13 @@ public class GameBoard {
 			System.out.println("\n" + "-".repeat(7) + " STATISTICS " + "-".repeat(50));
 			System.out.printf(" %-20s %8s %8s %8s\n", "PLAYER", "WINS", "LOSES", "TIES");
 			System.out.println("-".repeat(69) + "\n");
-			System.out.printf(" %-20s %8d %8d %8d\n", game.getPlayer1().getName(), 
-												game.getPlayer1().getWins(),
-												game.getPlayer1().getLoses(),
-												game.getPlayer1().getTies());
-			System.out.printf(" %-20s %8d %8d %8d\n", game.getPlayer2().getName(), 
-												game.getPlayer2().getWins(),
-												game.getPlayer2().getLoses(),
-												game.getPlayer2().getTies());
-			
+			for(int i = 0; i < players.length; i++) {
+				System.out.printf(" %-20s %8d %8d %8d\n", players[i].getName(), 
+						players[i].getWins(),
+						players[i].getLoses(),
+						players[i].getTies());
+			}//end for loop
+						
 			// play again selection
 			while (true) {
 				System.out.print("\n Play Again? (y/n): ");
@@ -342,14 +333,10 @@ public class GameBoard {
 					else {break;}//end else
 				}//end try
 				catch (java.util.InputMismatchException e) {
-					System.out.println("\n" + "-".repeat(26) + " INPUT MISMATCH " + "-".repeat(27));
-					System.out.println(" Sorry, Your Choice Is Not On The Menu. Please Try Again!");
-					scan.nextLine();
+					handleMismatch(scan);
 				}//end catch
 				catch (Exception e) {
-					System.out.println("\n" + "-".repeat(29) + " EXCEPTION " + "-".repeat(29));
-					System.out.println(" Not Valid, Please Try Again! ");
-					scan.nextLine();
+					handleExcept(scan);
 				}//end catch
 			}//end while loop
 		}//end while loop
